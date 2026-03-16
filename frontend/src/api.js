@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const isLocal = window.location.hostname === 'localhost';
+const BACKEND_URL = isLocal 
+    ? 'https://creoed-lms.onrender.com/api' // Even on localhost, use the live backend for now
+    : (import.meta.env.VITE_API_URL || 'https://creoed-lms.onrender.com/api');
+
+console.log('🔗 API Base URL:', BACKEND_URL);
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'https://creoed-lms.onrender.com/api',
+    baseURL: BACKEND_URL,
 });
 
 api.interceptors.request.use(
