@@ -48,7 +48,7 @@ router.post('/', verifyToken, authorizeRoles('Student'), async (req, res) => {
     if (!tutorId) return res.status(400).json({ message: 'Assigned Tutor is required' });
     try {
         const [result] = await pool.query(
-            'INSERT INTO Tickets (StudentID, TutorID, Subject, Description, Status) VALUES (?, ?, ?, ?, "Open")',
+            'INSERT INTO Tickets (StudentID, TutorID, Subject, Description, Status) VALUES (?, ?, ?, ?, \'Open\')',
             [req.user.id, tutorId || null, subject, description]
         );
         res.status(201).json({ id: result.insertId, message: 'Ticket created' });
@@ -85,7 +85,7 @@ router.post('/:id/replies', verifyToken, async (req, res) => {
         );
         // Auto-set to In Progress when tutor replies
         if (req.user.role === 'Tutor') {
-            await pool.query('UPDATE Tickets SET Status = "In Progress" WHERE ID = ? AND Status = "Open"', [req.params.id]);
+            await pool.query('UPDATE Tickets SET Status = \'In Progress\' WHERE ID = ? AND Status = \'Open\'', [req.params.id]);
         }
         res.status(201).json({ message: 'Reply posted' });
     } catch (err) {

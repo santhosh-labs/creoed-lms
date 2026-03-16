@@ -223,7 +223,7 @@ router.post('/students/bulk-assign', verifyToken, authorizeRoles('Super Admin', 
                 await conn.query('INSERT INTO ClassStudents (ClassID, StudentID) VALUES (?, ?)', [classId, studentId]);
                 const [feeExists] = await conn.query('SELECT * FROM FeeManagement WHERE StudentID = ? AND CourseID = ?', [studentId, courseId]);
                 if (feeExists.length === 0) {
-                    await conn.query('INSERT INTO FeeManagement (StudentID, CourseID, TotalFee, AmountPaid, PaymentStatus) VALUES (?, ?, ?, 0.00, "Pending")', [studentId, courseId, totalFee || 0]);
+                    await conn.query('INSERT INTO FeeManagement (StudentID, CourseID, TotalFee, AmountPaid, PaymentStatus) VALUES (?, ?, ?, 0.00, \'Pending\')', [studentId, courseId, totalFee || 0]);
                 }
             }
         }
